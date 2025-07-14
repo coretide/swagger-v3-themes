@@ -1,4 +1,4 @@
-# Swagger UI Themes WebJar
+# Swagger UI Themes
 
 A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector. This WebJar package provides easy integration of themed Swagger UI into Spring Boot applications.
 
