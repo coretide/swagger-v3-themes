@@ -1,0 +1,120 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.github.kushalpatel89'
+
+static def extractVersionFromGitTag() {
+    // Check CI environment variables first
+    def tagRef = System.getenv('CI_COMMIT_TAG')
+    if (tagRef?.startsWith("v")) {
+        return tagRef.replace("v", "")
+    }
+    tagRef = System.getenv('GITHUB_REF')
+    if (tagRef?.startsWith("refs/tags/v")) {
+        return tagRef.replace("refs/tags/v", "")
+    }
+
+    // Check if .git directory exists
+    def gitDir = new File('.git')
+    if (!gitDir.exists()) {
+        println "Warning: Not in a git repository (.git directory not found)"
+        return "0.0.1-SNAPSHOT"
+    }
+
+    try {
+        // Try to get exact tag for current commit
+        def gitTagProcess = ['git', 'describe', '--tags', '--exact-match', 'HEAD'].execute()
+        gitTagProcess.waitFor()
+        if (gitTagProcess.exitValue() == 0) {
+            def gitTag = gitTagProcess.in.text.trim()
+            if (gitTag.startsWith("v")) {
+                return gitTag.replace("v", "")
+            }
+            return gitTag
+        }
+
+        // Fall back to latest tag + SNAPSHOT
+        gitTagProcess = ['git', 'describe', '--tags', '--abbrev=0'].execute()
+        gitTagProcess.waitFor()
+        if (gitTagProcess.exitValue() == 0) {
+            def gitTag = gitTagProcess.in.text.trim()
+            if (gitTag.startsWith("v")) {
+                def version = gitTag.replace("v", "")
+                return version + "-SNAPSHOT"
+            }
+            return gitTag + "-SNAPSHOT"
+        }
+    } catch (Exception e) {
+        println "Warning: Could not extract version from Git tag: ${e.message}"
+    }
+    return "0.0.1-SNAPSHOT"
+}
+
+version = extractVersionFromGitTag()
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        create('maven', MavenPublication) {
+            from components.java as SoftwareComponent
+
+            pom {
+                name = 'Swagger UI Themes'
+                description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
+                url = 'https://github.com/KushalPatel89/swagger-v3-themes'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'kushalpatel89'
+                        name = 'Kushal Patel'
+                        url = 'https://github.com/KushalPatel89'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/KushalPatel89/swagger-v3-themes.git'
+                    developerConnection = 'scm:git:ssh://github.com/KushalPatel89/swagger-v3-themes.git'
+                    url = 'https://github.com/KushalPatel89/swagger-v3-themes'
+                }
+            }
+        }
+    }
+}
+
+tasks.named('jar') {
+    archiveFileName.set("${rootProject.name}-${version}.jar")
+}

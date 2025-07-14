@@ -1,0 +1,41 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link href="./swagger-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="index.css" rel="stylesheet" type="text/css"/>
+    <link href="./theme-selector.css" rel="stylesheet" type="text/css"/>
+    <link href="./favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+    <link href="./favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+</head>
+
+<body>
+<div id="swagger-ui"></div>
+<label>
+    <select class="theme-selector" onchange="toggleTheme(this.value)">
+        <option value="auto">🌓 Auto</option>
+        <option value="classic">🏛️ Classic</option>
+        <option value="dark">🌙 Dark</option>
+        <option value="dark-monokai">🌚 Dark Monokai</option>
+        <option value="dracula">🧛 Dracula</option>
+        <option value="feeling-blue">💙 Feeling Blue</option>
+        <option value="flattop">📱 Flattop</option>
+        <option value="gruvbox">🏔️ Gruvbox</option>
+        <option value="material">🎨 Material</option>
+        <option value="monokai">👨‍💻 Monokai</option>
+        <option value="muted">🔇 Muted</option>
+        <option value="newspaper">📰 Newspaper</option>
+        <option value="nord-dark">🏔️ Nord Dark</option>
+        <option value="one-dark">⚡ One Dark</option>
+        <option value="outline">📝 Outline</option>
+    </select>
+</label>
+
+<script charset="UTF-8" src="./swagger-ui-bundle.js"></script>
+<script charset="UTF-8" src="./swagger-ui-standalone-preset.js"></script>
+<script charset="UTF-8" src="./swagger-initializer.js"></script>
+<script charset="UTF-8" src="./theme-toggler.js"></script>
+</body>
+</html>
