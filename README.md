@@ -22,8 +22,7 @@ A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and 
 ## 📦 Installation
 
 ### Gradle
-```
-gradle
+```groovy
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
@@ -34,8 +33,7 @@ dependencies {
 }
 ```
 ### Maven
-```
-xml
+```xml
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -53,8 +51,7 @@ xml
 
 ### Spring Boot (Recommended)
 Simply add the dependency to your project. The library automatically overrides the default Swagger UI with the themed version.
-```
-java
+```java
 @SpringBootApplication
 public class YourApplication {
     public static void main(String[] args) {
@@ -64,8 +61,7 @@ public class YourApplication {
 ```
 ### Manual Configuration (Advanced)
 If you need custom resource handling:
-```
-java
+```java
 @Configuration
 public class SwaggerConfig {
 
@@ -75,15 +71,14 @@ public class SwaggerConfig {
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/webjars/swagger-ui/**")
-                    .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui-themed/");
+                    .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
             }
         };
     }
 }
 ```
 ### OpenAPI 3 Configuration Example
-```
-java
+```java
 @Configuration
 @OpenAPIDefinition(
     info = @Info(
@@ -122,8 +117,7 @@ public class OpenApiConfig {
 - `Ctrl/Cmd + Shift + D` - Cycle through dark themes only
 
 ## 🛠️ JavaScript API
-```
-javascript
+```javascript
 // Switch to a specific theme
 toggleTheme('dracula');
 
@@ -208,8 +202,6 @@ git clone https://github.com/KushalPatel89/swagger-v3-themes.git
 cd swagger-v3-themes
 ./gradlew build
 ```
-```
-
 
 ## 🌟 Support
 
