@@ -2,7 +2,7 @@
 
 A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector. This WebJar package provides easy integration of themed Swagger UI into Spring Boot applications.
 
-[![Maven Central](https://img.shields.io/maven-central/v/dev.coretide.theme/swagger-ui)](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.coretide.theme/swagger-v3-themes)](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-v3-themes)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/coretide/swagger-v3-themes)](https://github.com/coretide/swagger-v3-themes/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -38,7 +38,7 @@ dependencies {
 ```
 
 ### Latest Version
-Always check [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui) for the latest version.
+Always check [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-v3-themes) for the latest version.
 
 ## 🚀 Usage
 
@@ -166,7 +166,7 @@ previewTheme('material', 3000);
 
 ## 🚀 Releases
 
-This library is published to [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui) and follows semantic versioning.
+This library is published to [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-v3-themes) and follows semantic versioning.
 
 ### Release Types
 - **Stable releases**: `1.0.0`, `1.1.0`, `2.0.0`
