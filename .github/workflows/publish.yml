@@ -35,11 +35,16 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v2
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build and publish to staging
+        run: ./gradlew clean build publishAllPublicationsToStagingRepository
 
-      - name: Publish to Central Portal
-        run: ./gradlew publishMavenPublicationToMavenLocal jreleaserDeploy
+      - name: Debug staging directory
+        run: |
+          echo "Staging directory contents:"
+          find build/staging-deploy -type f || echo "No files found"
+
+      - name: Deploy to Maven Central
+        run: ./gradlew jreleaserDeploy --info
         env:
           JRELEASER_SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           JRELEASER_SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

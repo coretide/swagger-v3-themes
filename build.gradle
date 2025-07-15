@@ -79,11 +79,9 @@ publishing {
     publications {
         create('maven', MavenPublication) {
             from components.java as SoftwareComponent
-            groupId = 'dev.coretide.theme'
-            artifactId = 'swagger-ui'
 
             pom {
-                name = 'Swagger UI Themes'
+                name = 'Swagger V3 Themes'
                 description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
                 url = 'https://github.com/coretide/swagger-v3-themes'
 
@@ -98,7 +96,7 @@ publishing {
                     developer {
                         id = 'coretide'
                         name = 'Kushal Patel'
-                        url = 'https://github.com/coretide'
+                        email = 'contact@coretide.dev'
                     }
                 }
 
@@ -110,11 +108,31 @@ publishing {
             }
         }
     }
+
+    repositories {
+        maven {
+            name = 'staging'
+            url = layout.buildDirectory.dir('staging-deploy')
+        }
+    }
 }
 
 signing {
     required { gradle.taskGraph.hasTask("jreleaserDeploy") || gradle.taskGraph.hasTask("publishToSonatype") }
-    useGpgCmd()
+
+    // Use in-memory keys in CI to avoid passphrase prompts
+    if (System.getenv('CI') == 'true') {
+        def signingKey = System.getenv('GPG_PRIVATE_KEY') ?: System.getenv('JRELEASER_GPG_SECRET_KEY')
+        def signingPassword = System.getenv('GPG_PASSPHRASE') ?: System.getenv('JRELEASER_GPG_PASSPHRASE')
+
+        if (signingKey && signingPassword) {
+            useInMemoryPgpKeys(signingKey, signingPassword)
+        } else {
+            useGpgCmd()
+        }
+    } else {
+        useGpgCmd()
+    }
     sign publishing.publications.maven
 }
 
@@ -123,78 +141,56 @@ tasks.named('jar') {
 }
 
 jreleaser {
-    project {
+    project(({
         name = 'swagger-v3-themes'
         description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
         authors = ['Kushal Patel']
         license = 'MIT'
         copyright = '2025 Kushal Patel'
 
-        links {
+        links(({
             homepage = 'https://github.com/coretide/swagger-v3-themes'
             bugTracker = 'https://github.com/coretide/swagger-v3-themes/issues'
-        }
+        } as Closure<Void>))
 
         inceptionYear = '2025'
         vendor = 'Kushal Patel'
+    } as Closure<Void>))
 
-        java {
-            groupId = 'dev.coretide.theme'
-            artifactId = 'swagger-ui'
-            version = project.version
-        }
-    }
-
-    signing {
+    signing(({
         active = 'RELEASE'
         armored = true
-        publicKey = findProperty("gpgPublicKey") ?: System.getenv("JRELEASER_GPG_PUBLIC_KEY")
-        secretKey = findProperty("gpgSecretKey") ?: System.getenv("JRELEASER_GPG_SECRET_KEY")
-        passphrase = findProperty("gpgPassphrase") ?: System.getenv("JRELEASER_GPG_PASSPHRASE")
-    }
+    } as Closure<Void>))
 
     deploy {
         maven {
-            mavenCentral {
+            mavenCentral(({
                 sonatype {
                     active = 'ALWAYS'
                     url = 'https://central.sonatype.com/api/v1/publisher'
-                    username = findProperty("sonatypeUsername") ?: System.getenv("JRELEASER_SONATYPE_USERNAME")
-                    password = findProperty("sonatypePassword") ?: System.getenv("JRELEASER_SONATYPE_PASSWORD")
                     stagingRepository('build/staging-deploy')
-                    connectTimeout = 20
-                    readTimeout = 60
-                    retryDelay = 5
-                    maxRetries = 3
+                    connectTimeout = 60
+                    readTimeout = 600
+                    retryDelay = 10
+                    maxRetries = 5
                 }
-            }
+            } as Closure<Void>))
         }
     }
 
     release {
-        github {
+        github(({
             enabled = false
-        }
-        gitlab {
-            enabled = false
-        }
-        gitea {
-            enabled = false
-            apiEndpoint = 'https://dummy.com/api/v1'
-        }
-        codeberg {
-            enabled = false
-        }
-        generic {
-            enabled = false
-        }
+        } as Closure<Void>))
     }
+}
 
-    announce {
-        active = 'NEVER'
+tasks.register('createStagingDir') {
+    doLast {
+        file('build/staging-deploy').mkdirs()
     }
+}
 
-    assemble {
-        active = 'NEVER'
-    }
+tasks.named('jreleaserDeploy') {
+    dependsOn 'createStagingDir'
 }
