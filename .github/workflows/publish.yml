@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew build
 
       - name: Publish to Central Portal
-        run: ./gradlew jreleaserPublish
+        run: ./gradlew publishMavenPublicationToMavenLocal jreleaserDeploy
         env:
           JRELEASER_SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           JRELEASER_SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

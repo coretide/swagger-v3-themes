@@ -10,13 +10,10 @@ project:
     - Kushal Patel
   license: MIT
   copyright: 2025 Kushal Patel
-
   java:
     groupId: dev.coretide.theme
     artifactId: swagger-ui
     version: "{{projectVersion}}"
-
-# Completely disable all release functionality
 release:
   github:
     enabled: false
@@ -28,26 +25,22 @@ release:
     enabled: false
   generic:
     enabled: false
-
-# Disable all announcers
 announce:
   active: NEVER
-
-# Disable all assemblers
 assemble:
   active: NEVER
-
-# Disable all distributions
 distributions:
   active: NEVER
-
-# Only enable deployment
 signing:
   active: ALWAYS
   armored: true
-
 deploy:
   maven:
+    active: ALWAYS
+    nexus2:
+      active: NEVER
+    mavenCentral:
+      active: NEVER
     sonatype:
       active: ALWAYS
       url: https://central.sonatype.com/api/v1/publisher
@@ -56,3 +49,5 @@ deploy:
       readTimeout: 60
       retryDelay: 5
       maxRetries: 3
+      publications:
+        - maven
