@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.github.kushalpatel89'
+group = 'dev.coretide'
 
 static def extractVersionFromGitTag() {
     // Check CI environment variables first
@@ -88,7 +88,7 @@ publishing {
             pom {
                 name = 'Swagger UI Themes'
                 description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
-                url = 'https://github.com/KushalPatel89/swagger-v3-themes'
+                url = 'https://github.com/coretide/swagger-v3-themes'
 
                 licenses {
                     license {
@@ -99,16 +99,16 @@ publishing {
 
                 developers {
                     developer {
-                        id = 'kushalpatel89'
+                        id = 'coretide'
                         name = 'Kushal Patel'
-                        url = 'https://github.com/KushalPatel89'
+                        url = 'https://github.com/coretide'
                     }
                 }
 
                 scm {
-                    connection = 'scm:git:git://github.com/KushalPatel89/swagger-v3-themes.git'
-                    developerConnection = 'scm:git:ssh://github.com/KushalPatel89/swagger-v3-themes.git'
-                    url = 'https://github.com/KushalPatel89/swagger-v3-themes'
+                    connection = 'scm:git:git://github.com/coretide/swagger-v3-themes.git'
+                    developerConnection = 'scm:git:ssh://github.com/coretide/swagger-v3-themes.git'
+                    url = 'https://github.com/coretide/swagger-v3-themes'
                 }
             }
         }

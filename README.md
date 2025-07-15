@@ -2,8 +2,8 @@
 
 A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector. This WebJar package provides easy integration of themed Swagger UI into Spring Boot applications.
 
-[![](https://jitpack.io/v/KushalPatel89/swagger-v3-themes.svg)](https://jitpack.io/#KushalPatel89/swagger-v3-themes)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/KushalPatel89/swagger-v3-themes)](https://github.com/KushalPatel89/swagger-v3-themes/releases)
+[![](https://jitpack.io/v/coretide/swagger-v3-themes.svg)](https://jitpack.io/#coretide/swagger-v3-themes)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/coretide/swagger-v3-themes)](https://github.com/coretide/swagger-v3-themes/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ![Swagger UI Themes Demo](docs/images/demo.gif)
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.KushalPatel89:swagger-v3-themes:1.0.0'
+    implementation 'dev.coretide:swagger-v3-themes:1.0.0'
 }
 ```
 ### Maven
@@ -42,7 +42,7 @@ dependencies {
 </repositories>
 
 <dependency>
-    <groupId>com.github.KushalPatel89</groupId>
+    <groupId>dev.coretide</groupId>
     <artifactId>swagger-v3-themes</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -198,7 +198,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ### Development Setup
 ```bash
-git clone https://github.com/KushalPatel89/swagger-v3-themes.git
+git clone https://github.com/coretide/swagger-v3-themes.git
 cd swagger-v3-themes
 ./gradlew build
 ```
