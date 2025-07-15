@@ -170,9 +170,9 @@ jreleaser {
                     url = 'https://central.sonatype.com/api/v1/publisher'
                     stagingRepository('build/staging-deploy')
                     connectTimeout = 60
-                    readTimeout = 600
+                    readTimeout = 300
                     retryDelay = 10
-                    maxRetries = 5
+                    maxRetries = 2
                 }
             } as Closure<Void>))
         }
