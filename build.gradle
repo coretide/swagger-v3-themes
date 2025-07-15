@@ -126,12 +126,6 @@ jreleaser {
     project {
         name = 'swagger-v3-themes'
         description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
-        longDescription = '''
-            Transform your Swagger UI with stunning themes and an intuitive theme selector. 
-            Includes 14 beautiful themes ranging from classic to modern, light to dark, 
-            with features like auto theme switching, keyboard shortcuts, and Spring Boot integration.
-        '''.stripIndent().trim()
-
         authors = ['Kushal Patel']
         license = 'MIT'
         copyright = '2025 Kushal Patel'
@@ -139,7 +133,6 @@ jreleaser {
         links {
             homepage = 'https://github.com/coretide/swagger-v3-themes'
             bugTracker = 'https://github.com/coretide/swagger-v3-themes/issues'
-            documentation = 'https://github.com/coretide/swagger-v3-themes#readme'
         }
 
         inceptionYear = '2025'
@@ -155,6 +148,9 @@ jreleaser {
     signing {
         active = 'RELEASE'
         armored = true
+        publicKey = findProperty("gpgPublicKey") ?: System.getenv("JRELEASER_GPG_PUBLIC_KEY")
+        secretKey = findProperty("gpgSecretKey") ?: System.getenv("JRELEASER_GPG_SECRET_KEY")
+        passphrase = findProperty("gpgPassphrase") ?: System.getenv("JRELEASER_GPG_PASSPHRASE")
     }
 
     deploy {
@@ -184,6 +180,7 @@ jreleaser {
         }
         gitea {
             enabled = false
+            apiEndpoint = 'https://dummy.com/api/v1'
         }
         codeberg {
             enabled = false
@@ -193,12 +190,10 @@ jreleaser {
         }
     }
 
-    // Disable all announcers
     announce {
         active = 'NEVER'
     }
 
-    // Disable all assemblers
     assemble {
         active = 'NEVER'
     }
