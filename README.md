@@ -2,7 +2,7 @@
 
 A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector. This WebJar package provides easy integration of themed Swagger UI into Spring Boot applications.
 
-[![](https://jitpack.io/v/coretide/swagger-v3-themes.svg)](https://jitpack.io/#coretide/swagger-v3-themes)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.coretide.theme/swagger-ui)](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/coretide/swagger-v3-themes)](https://github.com/coretide/swagger-v3-themes/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -23,34 +23,28 @@ A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and 
 
 ### Gradle
 ```groovy
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-
 dependencies {
-    implementation 'dev.coretide.swagger:swagger-v3-themes:1.0.0'
+    implementation 'dev.coretide.theme:swagger-ui:1.0.0'
 }
 ```
+
 ### Maven
 ```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
 <dependency>
-    <groupId>dev.coretide.swagger</groupId>
-    <artifactId>swagger-v3-themes</artifactId>
+    <groupId>dev.coretide.theme</groupId>
+    <artifactId>swagger-ui</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
+
+### Latest Version
+Always check [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui) for the latest version.
+
 ## 🚀 Usage
 
 ### Spring Boot (Recommended)
 Simply add the dependency to your project. The library automatically overrides the default Swagger UI with the themed version.
+
 ```java
 @SpringBootApplication
 public class YourApplication {
@@ -59,8 +53,10 @@ public class YourApplication {
     }
 }
 ```
+
 ### Manual Configuration (Advanced)
 If you need custom resource handling:
+
 ```java
 @Configuration
 public class SwaggerConfig {
@@ -77,6 +73,7 @@ public class SwaggerConfig {
     }
 }
 ```
+
 ### OpenAPI 3 Configuration Example
 ```java
 @Configuration
@@ -91,6 +88,7 @@ public class OpenApiConfig {
     // Your OpenAPI configuration
 }
 ```
+
 ## 🎨 Available Themes
 
 | Theme | Description | Category |
@@ -133,6 +131,7 @@ randomTheme();
 // Preview theme for 3 seconds
 previewTheme('material', 3000);
 ```
+
 ## 📸 Theme Showcase
 
 ### Light Themes
@@ -164,6 +163,15 @@ previewTheme('material', 3000);
 - **Java**: 8+
 - **Browsers**: All modern browsers
 - **OpenAPI**: 3.0+
+
+## 🚀 Releases
+
+This library is published to [Maven Central](https://central.sonatype.com/artifact/dev.coretide.theme/swagger-ui) and follows semantic versioning.
+
+### Release Types
+- **Stable releases**: `1.0.0`, `1.1.0`, `2.0.0`
+- **Pre-releases**: `1.0.0-alpha`, `1.0.0-beta`, `1.0.0-gamma`
+- **Development**: `1.0.0-dev`
 
 ## 📝 License
 
@@ -203,6 +211,21 @@ cd swagger-v3-themes
 ./gradlew build
 ```
 
+### Building Locally
+```bash
+./gradlew build
+./gradlew publishToMavenLocal
+```
+
 ## 🌟 Support
 
 If you find this library useful, please consider giving it a star ⭐ on GitHub!
+
+### Need Help?
+- 📖 [Documentation](https://github.com/coretide/swagger-v3-themes/wiki)
+- 🐛 [Issues](https://github.com/coretide/swagger-v3-themes/issues)
+- 💬 [Discussions](https://github.com/coretide/swagger-v3-themes/discussions)
+
+---
+
+**Available on Maven Central** | **Spring Boot Compatible** | **14 Beautiful Themes**

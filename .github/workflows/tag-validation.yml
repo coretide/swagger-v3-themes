@@ -1,4 +1,4 @@
-name: Tag Validation
+name: Tag Validation and Release
 
 on:
   push:
@@ -39,12 +39,13 @@ jobs:
             exit 1
           fi
 
-  release:
+  build-and-process:
     needs: validate-tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+    outputs:
+      release-exists: ${{ steps.check.outputs.exists }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -63,8 +64,27 @@ jobs:
       - name: Build project
         run: ./gradlew build
 
+      - name: Check if release already exists
+        id: check
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "Checking if release exists for tag: $TAG_NAME"
+          
+          # Check if release exists using GitHub API
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME")
+          
+          if echo "$RESPONSE" | grep -q '"id"'; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "✅ Release already exists for $TAG_NAME"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "❌ No release found for $TAG_NAME"
+          fi
+
       - name: Get previous tag
         id: prev_tag
+        if: steps.check.outputs.exists == 'false'
         run: |
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
           echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
@@ -72,6 +92,7 @@ jobs:
 
       - name: Generate changelog
         id: changelog
+        if: steps.check.outputs.exists == 'false'
         run: |
           CURRENT_TAG=${GITHUB_REF#refs/tags/}
           PREV_TAG="${{ steps.prev_tag.outputs.prev_tag }}"
@@ -99,6 +120,7 @@ jobs:
 
       - name: Determine if pre-release
         id: prerelease
+        if: steps.check.outputs.exists == 'false'
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
           if [[ $TAG_NAME =~ -alpha|-beta|-gamma|-dev ]]; then
@@ -111,6 +133,7 @@ jobs:
 
       - name: Create Release
         id: create_release
+        if: steps.check.outputs.exists == 'false'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
@@ -119,6 +142,25 @@ jobs:
           draft: false
           prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
           files: |
-            ./build/libs/swagger-v3-themes-${{ github.ref_name }}.jar
+            ./build/libs/swagger-v3-themes-*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload assets to existing release
+        if: steps.check.outputs.exists == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            ./build/libs/swagger-v3-themes-*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log final status
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          if [ "${{ steps.check.outputs.exists }}" == "true" ]; then
+            echo "✅ Assets uploaded to existing release: $TAG_NAME"
+          else
+            echo "✅ New release created with assets: $TAG_NAME"
+          fi
