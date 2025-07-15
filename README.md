@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'dev.coretide:swagger-v3-themes:1.0.0'
+    implementation 'dev.coretide.swagger:swagger-v3-themes:1.0.0'
 }
 ```
 ### Maven
@@ -42,7 +42,7 @@ dependencies {
 </repositories>
 
 <dependency>
-    <groupId>dev.coretide</groupId>
+    <groupId>dev.coretide.swagger</groupId>
     <artifactId>swagger-v3-themes</artifactId>
     <version>1.0.0</version>
 </dependency>

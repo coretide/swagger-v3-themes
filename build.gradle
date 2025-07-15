@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'dev.coretide'
+group = 'dev.coretide.swagger'
 
 static def extractVersionFromGitTag() {
     // Check CI environment variables first
