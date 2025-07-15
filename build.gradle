@@ -84,6 +84,8 @@ publishing {
     publications {
         create('maven', MavenPublication) {
             from components.java as SoftwareComponent
+            groupId = 'dev.coretide.swagger'
+            artifactId = 'swagger-v3-themes'
 
             pom {
                 name = 'Swagger UI Themes'
