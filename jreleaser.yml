@@ -16,6 +16,32 @@ project:
     artifactId: swagger-ui
     version: "{{projectVersion}}"
 
+# Completely disable all release functionality
+release:
+  github:
+    enabled: false
+  gitlab:
+    enabled: false
+  gitea:
+    enabled: false
+  codeberg:
+    enabled: false
+  generic:
+    enabled: false
+
+# Disable all announcers
+announce:
+  active: NEVER
+
+# Disable all assemblers
+assemble:
+  active: NEVER
+
+# Disable all distributions
+distributions:
+  active: NEVER
+
+# Only enable deployment
 signing:
   active: ALWAYS
   armored: true
