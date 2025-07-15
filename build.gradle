@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
-    id 'org.jreleaser' version '1.8.0'
+    id 'org.jreleaser' version '1.18.0'
 }
 
 group = 'dev.coretide.theme'
@@ -113,10 +113,93 @@ publishing {
 }
 
 signing {
+    required { gradle.taskGraph.hasTask("jreleaserDeploy") || gradle.taskGraph.hasTask("publishToSonatype") }
     useGpgCmd()
     sign publishing.publications.maven
 }
 
 tasks.named('jar') {
     archiveFileName.set("${rootProject.name}-${version}.jar")
+}
+
+jreleaser {
+    project {
+        name = 'swagger-v3-themes'
+        description = 'A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and an intuitive theme selector'
+        longDescription = '''
+            Transform your Swagger UI with stunning themes and an intuitive theme selector. 
+            Includes 14 beautiful themes ranging from classic to modern, light to dark, 
+            with features like auto theme switching, keyboard shortcuts, and Spring Boot integration.
+        '''.stripIndent().trim()
+
+        authors = ['Kushal Patel']
+        license = 'MIT'
+        copyright = '2025 Kushal Patel'
+
+        links {
+            homepage = 'https://github.com/coretide/swagger-v3-themes'
+            bugTracker = 'https://github.com/coretide/swagger-v3-themes/issues'
+            documentation = 'https://github.com/coretide/swagger-v3-themes#readme'
+        }
+
+        inceptionYear = '2025'
+        vendor = 'Kushal Patel'
+
+        java {
+            groupId = 'dev.coretide.theme'
+            artifactId = 'swagger-ui'
+            version = project.version
+        }
+    }
+
+    signing {
+        active = 'RELEASE'
+        armored = true
+    }
+
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    username = findProperty("sonatypeUsername") ?: System.getenv("JRELEASER_SONATYPE_USERNAME")
+                    password = findProperty("sonatypePassword") ?: System.getenv("JRELEASER_SONATYPE_PASSWORD")
+                    stagingRepository('build/staging-deploy')
+                    connectTimeout = 20
+                    readTimeout = 60
+                    retryDelay = 5
+                    maxRetries = 3
+                }
+            }
+        }
+    }
+
+    release {
+        github {
+            enabled = false
+        }
+        gitlab {
+            enabled = false
+        }
+        gitea {
+            enabled = false
+        }
+        codeberg {
+            enabled = false
+        }
+        generic {
+            enabled = false
+        }
+    }
+
+    // Disable all announcers
+    announce {
+        active = 'NEVER'
+    }
+
+    // Disable all assemblers
+    assemble {
+        active = 'NEVER'
+    }
 }
