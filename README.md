@@ -24,7 +24,7 @@ A comprehensive theming library for Swagger UI v3+ with 14 beautiful themes and 
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'dev.coretide.theme:swagger-ui:1.0.0'
+    implementation 'dev.coretide.theme:swagger-v3-themes:1.0.0'
 }
 ```
 
@@ -32,7 +32,7 @@ dependencies {
 ```xml
 <dependency>
     <groupId>dev.coretide.theme</groupId>
-    <artifactId>swagger-ui</artifactId>
+    <artifactId>swagger-v3-themes</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
